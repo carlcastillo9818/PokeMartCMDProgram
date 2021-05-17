@@ -1,0 +1,21 @@
+1
+Potion
+50
+2
+Ultra Ball
+100
+3
+Master Ball
+100000
+4
+Paralyze Heal
+50
+5
+Burn Heal
+20
+6
+Super Potion
+100
+7
+Hyper Potion
+1000
