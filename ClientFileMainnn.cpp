@@ -56,7 +56,7 @@ void PokeMart_Menu(PokeMart &store, PokeTrainer &customer)
 				}
 				else // the customer doesnt have enough to buy anything so give an error message and tell them to come back when they have enough money
 				{
-					cout << "You do not have enough money to buy anything!\n Come back when you have more money!" << endl;
+					cout << "You do not have enough money to buy anything!\nCome back when you have more money!" << endl;
 					customerBuying = false;
 					exit(0);  // end the program now
 				}
