@@ -35,7 +35,7 @@ void PokeMart_Menu(PokeMart &store, PokeTrainer &customer)
 	bool hasEnoughMoney; // boolean flag var to check if the customer has enough money to buy stuff
 	PokeItem* itemForCustomer = nullptr; // this is the item that was sold by the store to the customer
 
-	cout << "\nHello " << customer.getName() << "!" << " Please select an option below." << endl;
+	cout << "\nHello " << customer.getName() << "! Your Current Balance is $"<< customer.getDollarAmount() <<  "\nPlease select an option below." << endl;
 	cout << "\t1. Buy items at the Pokemart\n\t2. Check your bag\n\t3. Close menu\nSelect your choice : "; cin >> userChoice;
 
 	do
@@ -47,7 +47,7 @@ void PokeMart_Menu(PokeMart &store, PokeTrainer &customer)
 				
 				if(hasEnoughMoney) // the customer has enough money to buy something so let them see the menu
 				{
-					system("cls");
+					system("cls"); // clear screen
 					cout << "\t\tITEM NAME\tITEM COST" << endl;
 					store.Display_All_Items(); // call the method to display all the stores items for sale
 					cin.ignore(); // clear input stream of enter key presses
@@ -79,6 +79,7 @@ void PokeMart_Menu(PokeMart &store, PokeTrainer &customer)
 		nextChoiceLetter = toupper(nextChoice[0]); // convert first letter to uppercase and store it in this var
 		if(nextChoiceLetter != 'Y') 
 		{
+			system("cls"); // clear screen
 			// user is finished shopping so tell them have a nice day and break out of the loop
 			cout << "Before you go, here are all the items in your bag that you purchased today!" << endl;
 			customer.showMyItems();
@@ -86,7 +87,7 @@ void PokeMart_Menu(PokeMart &store, PokeTrainer &customer)
 			exit(0); // end the program now
 		}
 		system("cls"); // clears the screen from text
-		cout << "\t1. Buy items at the Pokemart\n\t2. Check your bag\n\t3. Close menu\nSelect your choice " << customer.getName() << " : "; cin >> userChoice;
+		cout << "Your Current Balance is $"<< customer.getDollarAmount() << "\n\t1. Buy items at the Pokemart\n\t2. Check your bag\n\t3. Close menu\nSelect your choice " << customer.getName() << " : "; cin >> userChoice;
 
 	}while(customerBuying); 
 } // end of pokemart menu function

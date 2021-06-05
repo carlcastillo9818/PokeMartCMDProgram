@@ -19,13 +19,22 @@ adds it to the front of the linked list (front of the trainers bag), and
 also updates item count and pokedollar amount. */
 void PokeTrainer::addItem(PokeItem *customerItem)
 {
-	PokeItem*myNewNode = new PokeItem(); // dynamic allocate new object in memory
+	PokeItem * myNewNode = new PokeItem(); // dynamic allocate new object in memory
 	myNewNode->set_item_name(customerItem->get_item_name()); // set item name
 	myNewNode->set_item_cost(customerItem->get_item_cost()); // set item cost
+	myNewNode->set_item_quantity(customerItem->get_item_quantity()); // set item quantity
 	myNewNode->set_next_item(trainer_head_ptr); // give address of headptr to new node
 	trainer_head_ptr = myNewNode; // make head pointer point to the new node (new pokeitem added recently)
 
-	pokedollars = (pokedollars - myNewNode->get_item_cost()); // reduce the pokedollars amount after trainer buys an item
+	if(myNewNode->get_item_quantity() > 1) // check if the quantity is greater than 1
+	{
+		// reduce amount by the num of items multiplied by the base cost
+		pokedollars = (pokedollars - (myNewNode->get_item_quantity() * myNewNode->get_item_cost()));
+	}
+	else // quantity is only 1 so just reduce amount by the items base cost
+	{
+		pokedollars = (pokedollars - myNewNode->get_item_cost()); // reduce the pokedollars amount after trainer buys an item
+	}
 		
 	item_count++; // increase item count of the customer
 
@@ -59,7 +68,7 @@ void PokeTrainer::showMyItems()
 
 		while(traversalPtr!= nullptr) // loop through the linked list until the pointer hits nullptrptr
 		{
-			cout << traversalPtr->get_item_name() << endl;
+			cout << traversalPtr->get_item_name() << " x" << traversalPtr->get_item_quantity() << endl;
 			traversalPtr = traversalPtr->get_next_item();
 		}
 	}

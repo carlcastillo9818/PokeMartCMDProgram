@@ -133,7 +133,8 @@ PokeItem *PokeMart::sellItem(const int & customerMoney) const
 	PokeItem *ptrToPokeItem = nullptr; // a pointer to a PokeItem object
 	string customerChoice;  // var that holds users choice if they are ok with their current item picked 
 	char customerChoiceLetter; // var that holds the letter (Y or N)
-
+	int quantity; // var that holds the amount of the item the customer wants to buy (2 potions, 10 hyper potions, etc)
+	
 	do
 	{
 		cout << "\n\nWhich item would you like to buy? "; cin >> itemChoice; // get the item number (listed in the menu)
@@ -147,14 +148,25 @@ PokeItem *PokeMart::sellItem(const int & customerMoney) const
 			cout << "Try a different item : "; cin >> itemChoice;
 			ptrToPokeItem = searchForItem(itemChoice);  // should return a pointer to the node that contains the item the customer wants
 		}
+				
+		// ask customer how many of that item they want
+		cout << "How many " << ptrToPokeItem->get_item_name() << "(s) would you like? " << endl;
+		cin >> quantity;
+		ptrToPokeItem->set_item_quantity(quantity);
+		
+		while(quantity <= 0) // keep asking for a quantity until customer enters a valid quantity
+		{
+			cout << "Please enter a valid quantity!\nHow many " << ptrToPokeItem->get_item_name() << "(s) would you like? " << endl;
+			cin >> quantity;
+			ptrToPokeItem->set_item_quantity(quantity);
+		}
 		
 			
-		while(ptrToPokeItem->get_item_cost() > customerMoney) // Items cost is more than the customers balance so they have to pick another item
+		while(ptrToPokeItem->get_item_cost() > customerMoney || (quantity * ptrToPokeItem->get_item_cost()) > customerMoney) // Items cost is more than the customers balance so they have to pick another item
 		{
 			cout << "You do not have sufficient funds for that item. Please pick another item!" << endl;
 			cout << "\nWhich item would you like to buy? ";
 			cin >> itemChoice;
-			// implement a search function that searches the entire link list for the item choice using the item provided by customer
 			ptrToPokeItem = searchForItem(itemChoice);  // should return a pointer to the node that contains the item the customer wants
 			
 			while(ptrToPokeItem == nullptr) // data validation for pokeitem pointer contents
@@ -163,19 +175,41 @@ PokeItem *PokeMart::sellItem(const int & customerMoney) const
 				cout << "Try a different item : "; cin >> itemChoice;
 				ptrToPokeItem = searchForItem(itemChoice);  // should return a pointer to the node that contains the item the customer wants
 			}
+			
+			// ask customer how many of that item they want
+			cout << "How many " << ptrToPokeItem->get_item_name() << "(s) would you like? "; cin >> quantity;
+			ptrToPokeItem->set_item_quantity(quantity);
+
+			while(quantity <= 0) // keep asking for a quantity until customer enters a valid quantity
+			{
+				cout << "Please enter a valid quantity!\nHow many " << ptrToPokeItem->get_item_name() << "(s) would you like? " << endl;
+				cin >> quantity;
+				ptrToPokeItem->set_item_quantity(quantity);
+			}
 		}
 		
 		cin.ignore(); // clear input stream 
-		// customer finally picked an item that they can afford so display the name below
-		cout << "\nYou want " << ptrToPokeItem->get_item_name() << ".\nThat will be $" << ptrToPokeItem->get_item_cost() << ". Is that ok? "; // lets the customer know they bought the item successfully
-		getline(cin, customerChoice);
-
+		
+		if(quantity > 1) // quantity is greater than 1
+		{
+			// customer finally picked a set of an item that they can afford so display the name below
+			cout << "\nYou want " << ptrToPokeItem->get_item_quantity() << " " << ptrToPokeItem->get_item_name() << "s.\nThat will be $" << ptrToPokeItem->get_item_cost() * quantity << ". Is that ok? "; // lets the customer know they bought the item successfully
+			getline(cin, customerChoice);
+		}
+		else // quantity must be 1
+		{
+			// customer finally picked an item that they can afford so display the name below
+			cout << "\nYou want " << ptrToPokeItem->get_item_quantity() << " " << ptrToPokeItem->get_item_name() << ".\nThat will be $" << ptrToPokeItem->get_item_cost() << ". Is that ok? "; // lets the customer know they bought the item successfully
+			getline(cin, customerChoice);
+		}
+		
 		customerChoiceLetter = toupper(customerChoice[0]); // convert the first character of the string to uppercase and store it in the var
 		if(customerChoiceLetter == 'Y') // user decided to complete their purchase!
 		{
 			cout << "Here you go.  Thank you." << endl;
 			break;
 		}
+
 		
 	}while(customerChoiceLetter != 'Y'); // keep looping until the customer finally says YES to a purchase of an item
 	

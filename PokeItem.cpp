@@ -11,6 +11,7 @@ PokeItem::PokeItem()
 {
 	item_name = "default";
 	item_cost = 0;
+	quantity = 0;
 	next = nullptr;
 }
 
@@ -45,6 +46,12 @@ void PokeItem::set_next_item(PokeItem*nextitem)
 	next = nextitem;
 }
 
+// set the item quantity
+void PokeItem::set_item_quantity(const int &q)
+{
+	quantity = q;
+}
+
 // get the next pointer
 PokeItem* PokeItem::get_next_item() const
 {
@@ -68,6 +75,13 @@ int PokeItem::get_item_cost() const
 {
 	return item_cost;
 }
+
+// get the item quantity
+int PokeItem::get_item_quantity() const
+{
+	return quantity;
+}
+
 
 
 
